@@ -1,0 +1,28 @@
+server:
+  port: 8082
+
+spring:
+  application:
+    name: ms-bookings
+  datasource:
+    url: jdbc:postgresql://localhost:5432/ms_auth_db
+    username: ms_auth_user
+    password: ms_auth_pass
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+jwt:
+  secret: cambia-esta-clave-por-una-mucho-mas-larga-y-segura-en-produccion
+
+services:
+  stadium:
+    url: http://localhost:8081
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
