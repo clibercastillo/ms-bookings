@@ -19,6 +19,7 @@ public class BookingService {
 
     private final BookingRepository bookingRepository;
     private final StadiumClient stadiumClient;
+    private final BookingEventPublisher eventPublisher;
 
     public BookingResponse create(BookingRequest request, String token) {
         String userEmail = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -53,7 +54,9 @@ public class BookingService {
                 .status(BookingStatus.PENDING)
                 .build();
 
-        return toResponse(bookingRepository.save(booking));
+        Booking saved = bookingRepository.save(booking);
+        eventPublisher.publish(saved);
+        return toResponse(saved);
     }
 
     public List<BookingResponse> findMyBookings() {
@@ -72,7 +75,9 @@ public class BookingService {
             throw new IllegalStateException("No se puede cancelar una reserva completada");
         }
         booking.setStatus(BookingStatus.CANCELLED);
-        return toResponse(bookingRepository.save(booking));
+        Booking saved = bookingRepository.save(booking);
+        eventPublisher.publish(saved);
+        return toResponse(saved);
     }
 
     public BookingResponse complete(Long id) {
@@ -86,7 +91,9 @@ public class BookingService {
                     "No se puede pasar de " + booking.getStatus() + " a " + next);
         }
         booking.setStatus(next);
-        return toResponse(bookingRepository.save(booking));
+        Booking saved = bookingRepository.save(booking);
+        eventPublisher.publish(saved);
+        return toResponse(saved);
     }
 
     private Booking getOwnedBooking(Long id) {
