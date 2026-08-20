@@ -1,7 +1,6 @@
 package com.utp.ms_bookings.repository;
 
 import com.utp.ms_bookings.entity.Booking;
-import com.utp.ms_bookings.entity.BookingStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

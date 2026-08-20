@@ -1,25 +1,30 @@
 server:
-  port: 8082
+  port: 8080
 
 spring:
   application:
     name: ms-bookings
   datasource:
-    url: jdbc:postgresql://localhost:5432/ms_auth_db
-    username: ms_auth_user
-    password: ms_auth_pass
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/ms_bookings_db}
+    username: ${SPRING_DATASOURCE_USERNAME:ms_auth_user}
+    password: ${SPRING_DATASOURCE_PASSWORD:ms_auth_pass}
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
       ddl-auto: update
     show-sql: true
+  rabbitmq:
+    host: ${SPRING_RABBITMQ_HOST:localhost}
+    port: ${SPRING_RABBITMQ_PORT:5672}
+    username: ${SPRING_RABBITMQ_USERNAME:guest}
+    password: ${SPRING_RABBITMQ_PASSWORD:guest}
 
 jwt:
-  secret: cambia-esta-clave-por-una-mucho-mas-larga-y-segura-en-produccion
+  secret: ${JWT_SECRET:clave}
 
 services:
   stadium:
-    url: http://localhost:8081
+    url: ${SERVICES_STADIUM_URL:http://localhost:8081}
 
 springdoc:
   api-docs:
