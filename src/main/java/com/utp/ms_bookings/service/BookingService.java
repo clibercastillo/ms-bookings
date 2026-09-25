@@ -10,6 +10,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -111,5 +112,21 @@ public class BookingService {
                 b.getId(), b.getStadiumId(), b.getUserEmail(), b.getBookingDate(),
                 b.getStartTime(), b.getEndTime(), b.getTotalPrice(), b.getStatus()
         );
+    }
+
+    public List<BookingResponse> findByStadiumAndDate(Long stadiumId, LocalDate date) {
+        return bookingRepository.findByStadiumIdAndBookingDate(stadiumId, date).stream()
+                .map(this::toResponse).collect(Collectors.toList());
+    }
+
+    public List<BookingResponse> findAllForAdmin(LocalDate from, LocalDate to, Long stadiumId) {
+        List<Booking> bookings = (stadiumId != null)
+                ? bookingRepository.findByBookingDateBetweenAndStadiumId(from, to, stadiumId)
+                : bookingRepository.findByBookingDateBetween(from, to);
+
+        return bookings.stream()
+                .filter(b -> b.getStatus() != BookingStatus.CANCELLED)
+                .map(this::toResponse)
+                .collect(Collectors.toList());
     }
 }

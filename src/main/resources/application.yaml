@@ -1,13 +1,13 @@
 server:
-  port: 8080
+  port: 8083
 
 spring:
   application:
     name: ms-bookings
   datasource:
     url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/ms_bookings_db}
-    username: ${SPRING_DATASOURCE_USERNAME:ms_auth_user}
-    password: ${SPRING_DATASOURCE_PASSWORD:ms_auth_pass}
+    username: ${SPRING_DATASOURCE_USERNAME:postgres}
+    password: ${SPRING_DATASOURCE_PASSWORD:postgres_pass}
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
@@ -20,11 +20,11 @@ spring:
     password: ${SPRING_RABBITMQ_PASSWORD:guest}
 
 jwt:
-  secret: ${JWT_SECRET:clave}
+  secret: ${JWT_SECRET:QWS1yx/jGRhBUyRSbJ8jXixSbUANbw60VE17GSuzNaM=}
 
 services:
   stadium:
-    url: ${SERVICES_STADIUM_URL:http://localhost:8081}
+    url: ${SERVICES_STADIUM_URL:http://localhost:8082}
 
 springdoc:
   api-docs:

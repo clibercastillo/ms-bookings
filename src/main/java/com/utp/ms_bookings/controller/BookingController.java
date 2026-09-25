@@ -7,9 +7,11 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -34,6 +36,14 @@ public class BookingController {
         return ResponseEntity.ok(bookingService.findMyBookings());
     }
 
+    @GetMapping("/stadium/{stadiumId}")
+    @Operation(summary = "Listar reservas de una cancha en una fecha (para calendario admin)")
+    public ResponseEntity<List<BookingResponse>> byStadiumAndDate(
+            @PathVariable Long stadiumId,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
+        return ResponseEntity.ok(bookingService.findByStadiumAndDate(stadiumId, date));
+    }
+
     @PatchMapping("/{id}/confirm")
     @Operation(summary = "Confirmar reserva (PENDING → CONFIRMED)")
     public ResponseEntity<BookingResponse> confirm(@PathVariable Long id) {
@@ -50,5 +60,14 @@ public class BookingController {
     @Operation(summary = "Completar reserva (CONFIRMED → COMPLETED)")
     public ResponseEntity<BookingResponse> complete(@PathVariable Long id) {
         return ResponseEntity.ok(bookingService.complete(id));
+    }
+    
+    @GetMapping("/admin")
+    @Operation(summary = "Listar reservas (PENDING/CONFIRMED/COMPLETED) por rango de fechas — solo ADMIN")
+    public ResponseEntity<List<BookingResponse>> adminFindAll(
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate from,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate to,
+            @RequestParam(required = false) Long stadiumId) {
+        return ResponseEntity.ok(bookingService.findAllForAdmin(from, to, stadiumId));
     }
 }

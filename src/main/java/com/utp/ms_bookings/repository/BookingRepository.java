@@ -28,4 +28,8 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
             @Param("start") LocalTime start,
             @Param("end") LocalTime end
     );
+
+    List<Booking> findByBookingDateBetween(LocalDate from, LocalDate to);
+
+    List<Booking> findByBookingDateBetweenAndStadiumId(LocalDate from, LocalDate to, Long stadiumId);
 }
