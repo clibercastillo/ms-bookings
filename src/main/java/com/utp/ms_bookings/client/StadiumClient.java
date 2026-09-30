@@ -5,7 +5,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
 import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.core.ParameterizedTypeReference;
 
+import java.util.List;
 @Component
 @RequiredArgsConstructor
 public class StadiumClient {
@@ -22,6 +24,15 @@ public class StadiumClient {
         } catch (HttpClientErrorException.NotFound e) {
             throw new IllegalArgumentException("Cancha no encontrada: " + stadiumId);
         }
+    }
+
+    public List<StadiumInfo> listStadiums(String token) {
+        List<StadiumInfo> list = stadiumRestClient.get()
+                .uri("/api/stadiums")
+                .header("Authorization", "Bearer " + token)
+                .retrieve()
+                .body(new ParameterizedTypeReference<List<StadiumInfo>>() {});
+        return list != null ? list : List.of();
     }
 
     @Getter
