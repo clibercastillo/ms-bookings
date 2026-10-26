@@ -120,7 +120,9 @@ public class BookingService {
 
     public List<BookingResponse> findByStadiumAndDate(Long stadiumId, LocalDate date) {
         return bookingRepository.findByStadiumIdAndBookingDate(stadiumId, date).stream()
-                .map(this::toResponse).collect(Collectors.toList());
+                .filter(booking -> booking.getStatus() != BookingStatus.CANCELLED)
+                .map(this::toResponse)
+                .collect(Collectors.toList());
     }
 
     public List<BookingResponse> findAllForAdmin(LocalDate from, LocalDate to, Long stadiumId) {
