@@ -73,4 +73,4 @@ docker run -p 8082:8082 ms-bookings:local
 
 ## CI/CD
 
-El pipeline en `.github/workflows/ci.yml` compila el proyecto y publica la imagen en GitHub Container Registry (`ghcr.io`) en cada push a `main` o `develop`.
+El pipeline en `.github/workflows/ci.yml` compila el proyecto y publica la imagen en GitHub Container Registry (`ghcr.io`) en cada push a `main` o `develop`..
