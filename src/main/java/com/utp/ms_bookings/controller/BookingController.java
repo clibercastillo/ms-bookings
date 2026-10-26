@@ -14,6 +14,11 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 import java.util.List;
 
+/**
+ * Controlador REST para gestionar reservas de canchas.
+ * Expone operaciones para crear, confirmar, cancelar, completar y consultar
+ * reservas por usuario y por canal de administración.
+ */
 @RestController
 @RequestMapping("/api/bookings")
 @RequiredArgsConstructor

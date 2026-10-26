@@ -8,6 +8,10 @@ import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+/**
+ * Configura el intercambio y la serialización de eventos de reservas
+ * para publicar cambios de estado a través de RabbitMQ.
+ */
 @Configuration
 public class RabbitConfig {
 

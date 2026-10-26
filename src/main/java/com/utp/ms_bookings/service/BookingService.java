@@ -14,6 +14,10 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Servicio principal de negocio para la gestión de reservas.
+ * Valida permisos, calcula precios, evita solapamientos y publica eventos del flujo de reservas.
+ */
 @Service
 @RequiredArgsConstructor
 public class BookingService {

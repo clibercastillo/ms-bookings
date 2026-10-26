@@ -9,6 +9,10 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
+/**
+ * Repositorio de persistencia para las reservas de cancha.
+ * Proporciona consultas para usuarios, rangos de fechas y solapamiento de horarios.
+ */
 public interface BookingRepository extends JpaRepository<Booking, Long> {
 
     List<Booking> findByUserEmail(String userEmail);

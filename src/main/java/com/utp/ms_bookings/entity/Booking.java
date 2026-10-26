@@ -6,6 +6,10 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
+/**
+ * Entidad que representa una reserva de cancha dentro del sistema.
+ * Guarda el usuario, la cancha, el rango horario, el precio calculado y el estado actual.
+ */
 @Entity
 @Table(name = "bookings")
 @Getter

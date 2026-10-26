@@ -8,6 +8,10 @@ import io.swagger.v3.oas.models.Components;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+/**
+ * Define la configuración de OpenAPI/Swagger para documentar los endpoints
+ * y habilitar autenticación JWT en la interfaz visual de la API.
+ */
 @Configuration
 public class OpenApiConfig {
 

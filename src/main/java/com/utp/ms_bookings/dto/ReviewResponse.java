@@ -5,6 +5,9 @@ import lombok.Getter;
 
 import java.time.LocalDateTime;
 
+/**
+ * Respuesta que expone una reseña publicada por un cliente del sistema.
+ */
 @Getter
 @AllArgsConstructor
 public class ReviewResponse {

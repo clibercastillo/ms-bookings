@@ -9,6 +9,10 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Maneja errores de validación y reglas de negocio para responder con
+ * HTTP status consistentes en la API REST del microservicio.
+ */
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 

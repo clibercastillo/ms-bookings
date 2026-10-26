@@ -7,6 +7,9 @@ import lombok.Getter;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
+/**
+ * Representación de salida de una reserva con el estado actual y su detalle temporal.
+ */
 @Getter
 @AllArgsConstructor
 public class BookingResponse {

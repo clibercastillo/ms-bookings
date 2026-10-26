@@ -11,6 +11,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * Endpoint para interactuar con el asistente de reservas con IA.
+ * Permite enviar mensajes al modelo y recibir respuestas contextualizadas
+ * con la lógica de negocio del sistema de reservas.
+ */
 @RestController
 @RequestMapping("/api/bookings/assistant")
 @RequiredArgsConstructor

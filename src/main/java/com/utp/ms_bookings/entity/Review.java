@@ -4,6 +4,10 @@ import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDateTime;
 
+/**
+ * Entidad que representa una reseña asociada a una reserva completada.
+ * Permite calificar la cancha y dejar un comentario visible para otros clientes.
+ */
 @Entity
 @Table(name = "reviews", uniqueConstraints = @UniqueConstraint(columnNames = "booking_id"))
 @Getter

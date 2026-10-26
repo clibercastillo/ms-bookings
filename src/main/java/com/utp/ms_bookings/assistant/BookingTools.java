@@ -28,9 +28,9 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Supplier;
 
 /**
- * Herramientas que el modelo puede invocar. Reutilizan BookingService, así que
- * pasan por las mismas validaciones que el endpoint normal (cancha habilitada, solapes, etc.).
- * El token y el usuario viajan en el ToolContext: el modelo nunca los ve.
+ * Conjunto de herramientas disponibles para el asistente de IA.
+ * Permite crear reservas, consultar rangos ocupados y listar reservas del
+ * usuario actual, reutilizando la lógica de negocio del servicio principal.
  */
 @Slf4j
 @Component
@@ -50,7 +50,6 @@ public class BookingTools {
 
     private final BookingService bookingService;
 
-    /** Estado de UNA petición: permite saber si el asistente llegó a crear una reserva. */
     public static final class CallState {
         final AtomicBoolean bookingCreated = new AtomicBoolean(false);
     }
@@ -87,7 +86,6 @@ public class BookingTools {
             return BookingResult.error("Formato inválido: usa fecha yyyy-MM-dd y horas HH:mm (24h).");
         }
 
-        // Estas reglas hoy solo existen en el frontend (home.ts); aquí se aplican también para el chat
         if (!end.isAfter(start)) {
             return BookingResult.error("La hora de fin debe ser mayor a la hora de inicio.");
         }
@@ -128,7 +126,6 @@ public class BookingTools {
                     saved.getTotalPrice(), saved.getStatus().name());
 
         } catch (IllegalArgumentException | IllegalStateException e) {
-            // "Ya existe una reserva en ese horario", "La cancha no está disponible", etc.
             return BookingResult.error(e.getMessage());
         } catch (RestClientException e) {
             log.warn("ms-stadium no respondió al crear la reserva", e);
@@ -177,10 +174,6 @@ public class BookingTools {
                 .toList());
     }
 
-    /**
-     * BookingService lee el usuario desde SecurityContextHolder (ThreadLocal). Si Spring AI ejecutara la
-     * herramienta en otro hilo, quedaría vacío: aquí se restaura el usuario que vino en el ToolContext.
-     */
     private <T> T asUser(ToolContext toolContext, Supplier<T> action) {
         Authentication auth = (Authentication) toolContext.getContext().get(AUTH_KEY);
         SecurityContext previous = SecurityContextHolder.getContext();

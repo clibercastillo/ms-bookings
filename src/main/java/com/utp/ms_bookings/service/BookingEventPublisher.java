@@ -7,6 +7,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Component;
 
+/**
+ * Publica eventos del dominio de reservas a RabbitMQ cuando cambia el estado de una reserva.
+ */
 @Component
 @RequiredArgsConstructor
 public class BookingEventPublisher {

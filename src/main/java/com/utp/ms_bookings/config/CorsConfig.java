@@ -8,6 +8,10 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.List;
 
+/**
+ * Configura la política de CORS para permitir que la UI del frontend
+ * pueda consumir la API del microservicio desde entornos locales y de despliegue.
+ */
 @Configuration
 public class CorsConfig {
 
@@ -27,4 +31,3 @@ public class CorsConfig {
         return source;
     }
 }
-

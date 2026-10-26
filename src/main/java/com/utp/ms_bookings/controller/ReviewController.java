@@ -12,6 +12,11 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * Controlador para gestionar reseñas de canchas.
+ * Permite registrar una valoración asociada a una reserva completada y
+ * listar comentarios públicos por estadio.
+ */
 @RestController
 @RequestMapping("/api/bookings")
 @RequiredArgsConstructor
