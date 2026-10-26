@@ -5,6 +5,7 @@ Microservicio de reservas de canchas sintéticas. Valida tokens JWT emitidos por
 ## Stack
 
 - Java 17 · Spring Boot 4.1.0
+- Java 17 · Spring Boot 4.1.0
 - Spring Security (validación de JWT)
 - Spring Data JPA + PostgreSQL
 - RestClient (comunicación síncrona con `ms-stadium`)
