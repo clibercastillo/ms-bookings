@@ -31,10 +31,13 @@ Swagger UI en `http://localhost:8082/swagger-ui.html`
 
 ## Estados de una reserva
 
-```
-PENDING → CONFIRMED → COMPLETED
-   ↓
-CANCELLED
+```mermaid
+stateDiagram-v2
+    [*] --> PENDING
+    PENDING --> CONFIRMED
+    PENDING --> CANCELLED
+    CONFIRMED --> COMPLETED
+    CONFIRMED --> CANCELLED
 ```
 
 ## Endpoints principales
