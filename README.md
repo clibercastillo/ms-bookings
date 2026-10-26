@@ -68,6 +68,7 @@ El token se obtiene desde `ms-auth` (`POST /api/auth/login`).
 ```bash
 docker build -t ms-bookings:local .
 docker run -p 8082:8082 ms-bookings:local
+docker run -p 8082:8082 ms-bookings:local
 ```
 
 ## CI/CD
