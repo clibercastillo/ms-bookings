@@ -31,13 +31,10 @@ Swagger UI en `http://localhost:8082/swagger-ui.html`
 
 ## Estados de una reserva
 
-```mermaid
-stateDiagram-v2
-    [*] --> PENDING
-    PENDING --> CONFIRMED
-    PENDING --> CANCELLED
-    CONFIRMED --> COMPLETED
-    CONFIRMED --> CANCELLED
+```
+PENDING → CONFIRMED → COMPLETED
+   ↓
+CANCELLED
 ```
 
 ## Endpoints principales
@@ -50,17 +47,11 @@ stateDiagram-v2
 | PATCH  | `/api/bookings/{id}/cancel` | Cancelar reserva                       | Sí   |
 | PATCH  | `/api/bookings/{id}/complete`| Completar reserva (CONFIRMED → COMPLETED)| Sí |
 
-Las rutas protegidas requieren el header HTTP `Authorization`:
-
-```http
-Authorization: Bearer <token_jwt>
+Rutas protegidas requieren header:
 ```
-
-El token JWT se obtiene al iniciar sesión mediante el endpoint de `ms-auth`:
-
-```http
-POST /api/auth/login
+Authorization: Bearer <token>
 ```
+El token se obtiene desde `ms-auth` (`POST /api/auth/login`).
 
 ## Variables de entorno
 
@@ -77,9 +68,12 @@ POST /api/auth/login
 ```bash
 docker build -t ms-bookings:local .
 docker run -p 8082:8082 ms-bookings:local
-docker run -p 8082:8082 ms-bookings:local
 ```
 
 ## CI/CD
 
-El pipeline en `.github/workflows/ci.yml` compila el proyecto y publica la imagen en GitHub Container Registry (`ghcr.io`) en cada push a `main` o `develop`..
+El pipeline en `.github/workflows/ci.yml` compila el proyecto y publica la imagen en GitHub Container Registry (`ghcr.io`) en cada push a `main` o `develop`.
+
+## levantamiento en Git
+ 
+Se puede descargar con el comando clone y la dirección del HTMLS del repositorio en GitHub  con los permisos correspondientes se enlazara solo y podrás hacer modificaciones y subirlas
