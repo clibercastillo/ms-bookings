@@ -50,11 +50,17 @@ stateDiagram-v2
 | PATCH  | `/api/bookings/{id}/cancel` | Cancelar reserva                       | Sí   |
 | PATCH  | `/api/bookings/{id}/complete`| Completar reserva (CONFIRMED → COMPLETED)| Sí |
 
-Rutas protegidas requieren header:
+Las rutas protegidas requieren el header HTTP `Authorization`:
+
+```http
+Authorization: Bearer <token_jwt>
 ```
-Authorization: Bearer <token>
+
+El token JWT se obtiene al iniciar sesión mediante el endpoint de `ms-auth`:
+
+```http
+POST /api/auth/login
 ```
-El token se obtiene desde `ms-auth` (`POST /api/auth/login`).
 
 ## Variables de entorno
 
