@@ -7,6 +7,10 @@ import lombok.Getter;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
+/**
+ * Evento publicado cuando cambia el estado de una reserva.
+ * Se utiliza para notificar a otros componentes del sistema mediante RabbitMQ.
+ */
 @Getter
 @AllArgsConstructor
 public class BookingEvent {

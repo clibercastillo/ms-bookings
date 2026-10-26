@@ -16,13 +16,14 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * Memoria de conversación en RAM (por correo + conversationId).
- * Guarda solo el texto final de cada turno, con tope de mensajes y expiración.
+ * Mantiene la memoria de conversación en memoria RAM para cada usuario.
+ * Guarda un historial limitado de mensajes por clave de conversación y
+ * elimina entradas vencidas para conservar recursos del servicio.
  */
 @Component
 public class ConversationMemory {
 
-    private static final int MAX_MESSAGES = 12;          // 6 idas y vueltas
+    private static final int MAX_MESSAGES = 12;
     private static final int MAX_CONVERSATIONS = 500;
     private static final Duration TTL = Duration.ofMinutes(30);
 

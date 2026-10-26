@@ -9,6 +9,10 @@ import javax.crypto.SecretKey;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * Utilidad para validar y decodificar tokens JWT emitidos a los clientes del sistema.
+ * Extrae el usuario y sus roles para poblar el contexto de seguridad.
+ */
 @Component
 public class JwtUtil {
 

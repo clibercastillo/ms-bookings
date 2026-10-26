@@ -5,6 +5,10 @@ import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * Solicitud de conversación con el asistente de IA.
+ * Contiene el texto del mensaje y un identificador único para mantener el hilo.
+ */
 @Getter
 @Setter
 public class AssistantChatRequest {

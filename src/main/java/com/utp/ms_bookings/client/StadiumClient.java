@@ -8,6 +8,12 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.core.ParameterizedTypeReference;
 
 import java.util.List;
+
+/**
+ * Cliente HTTP para integrar el microservicio de canchas.
+ * Encapsula la comunicación con el servicio externo de estadios y expone
+ * operaciones para consultar una cancha específica o listar las habilitadas.
+ */
 @Component
 @RequiredArgsConstructor
 public class StadiumClient {

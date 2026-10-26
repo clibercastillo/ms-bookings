@@ -12,6 +12,10 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.http.HttpMethod;
 
+/**
+ * Centraliza la seguridad web del servicio.
+ * Define las rutas públicas, el manejo de JWT y el estado inmutable de la sesión.
+ */
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor

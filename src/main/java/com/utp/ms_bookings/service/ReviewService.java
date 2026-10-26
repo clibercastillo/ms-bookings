@@ -14,6 +14,10 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Servicio encargado de crear y consultar reseñas de reservas completadas.
+ * Valida permisos del usuario y previene reseñas duplicadas por la misma reserva.
+ */
 @Service
 @RequiredArgsConstructor
 public class ReviewService {
