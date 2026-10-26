@@ -5,6 +5,7 @@ Microservicio de reservas de canchas sintéticas. Valida tokens JWT emitidos por
 ## Stack
 
 - Java 17 · Spring Boot 4.1.0
+- Java 17 · Spring Boot 4.1.0
 - Spring Security (validación de JWT)
 - Spring Data JPA + PostgreSQL
 - RestClient (comunicación síncrona con `ms-stadium`)
@@ -67,6 +68,7 @@ El token se obtiene desde `ms-auth` (`POST /api/auth/login`).
 
 ```bash
 docker build -t ms-bookings:local .
+docker run -p 8082:8082 ms-bookings:local
 docker run -p 8082:8082 ms-bookings:local
 ```
 
