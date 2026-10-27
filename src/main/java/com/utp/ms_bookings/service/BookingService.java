@@ -6,9 +6,13 @@ import com.utp.ms_bookings.entity.Booking;
 import com.utp.ms_bookings.entity.BookingStatus;
 import com.utp.ms_bookings.repository.BookingRepository;
 import lombok.RequiredArgsConstructor;
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.util.List;
@@ -68,6 +72,13 @@ public class BookingService {
         String userEmail = SecurityContextHolder.getContext().getAuthentication().getName();
         return bookingRepository.findByUserEmail(userEmail).stream()
                 .map(this::toResponse).collect(Collectors.toList());
+    }
+
+    public List<BookingResponse> findAll() {
+        return bookingRepository.findAll().stream()
+                .filter(booking -> booking.getStatus() != BookingStatus.CANCELLED)
+                .map(this::toResponse)
+                .collect(Collectors.toList());
     }
 
     public BookingResponse confirm(Long id) {
@@ -135,4 +146,59 @@ public class BookingService {
                 .map(this::toResponse)
                 .collect(Collectors.toList());
     }
+
+    public byte[] exportAllBookingsToExcel() {
+        return exportBookingsToExcel(findAll());
+    }
+
+    public byte[] exportAllBookingsToExcel(LocalDate from, LocalDate to, Long stadiumId) {
+        return exportBookingsToExcel(findAllForAdmin(from, to, stadiumId));
+    }
+
+    private byte[] exportBookingsToExcel(List<BookingResponse> bookings) {
+        String[] headers = {
+                "ID", "Cancha", "Usuario", "Fecha", "Hora inicio", "Hora fin",
+                "Precio total", "Estado"
+        };
+
+        try (Workbook workbook = new XSSFWorkbook();
+             ByteArrayOutputStream out = new ByteArrayOutputStream()) {
+
+            Sheet sheet = workbook.createSheet("Reservas");
+
+            Row headerRow = sheet.createRow(0);
+            for (int i = 0; i < headers.length; i++) {
+                Cell cell = headerRow.createCell(i);
+                cell.setCellValue(headers[i]);
+                CellStyle style = workbook.createCellStyle();
+                Font font = workbook.createFont();
+                font.setBold(true);
+                style.setFont(font);
+                cell.setCellStyle(style);
+            }
+
+            int rowIndex = 1;
+            for (BookingResponse booking : bookings) {
+                Row row = sheet.createRow(rowIndex++);
+                row.createCell(0).setCellValue(booking.getId() != null ? booking.getId() : 0);
+                row.createCell(1).setCellValue(booking.getStadiumId() != null ? booking.getStadiumId() : 0);
+                row.createCell(2).setCellValue(booking.getUserEmail() != null ? booking.getUserEmail() : "");
+                row.createCell(3).setCellValue(booking.getBookingDate() != null ? booking.getBookingDate().toString() : "");
+                row.createCell(4).setCellValue(booking.getStartTime() != null ? booking.getStartTime().toString() : "");
+                row.createCell(5).setCellValue(booking.getEndTime() != null ? booking.getEndTime().toString() : "");
+                row.createCell(6).setCellValue(booking.getTotalPrice() != null ? booking.getTotalPrice() : 0.0);
+                row.createCell(7).setCellValue(booking.getStatus() != null ? booking.getStatus().name() : "");
+            }
+
+            for (int i = 0; i < headers.length; i++) {
+                sheet.autoSizeColumn(i);
+            }
+
+            workbook.write(out);
+            return out.toByteArray();
+        } catch (IOException e) {
+            throw new IllegalStateException("No se pudo generar el reporte Excel de reservas", e);
+        }
+    }
 }
+

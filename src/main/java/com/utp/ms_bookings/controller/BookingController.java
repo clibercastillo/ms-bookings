@@ -7,7 +7,11 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -41,6 +45,12 @@ public class BookingController {
         return ResponseEntity.ok(bookingService.findMyBookings());
     }
 
+    @GetMapping("/all")
+    @Operation(summary = "Listar todas las reservas")
+    public ResponseEntity<List<BookingResponse>> allBookings() {
+        return ResponseEntity.ok(bookingService.findAll());
+    }
+
     @GetMapping("/stadium/{stadiumId}")
     @Operation(summary = "Listar reservas de una cancha en una fecha (para calendario admin)")
     public ResponseEntity<List<BookingResponse>> byStadiumAndDate(
@@ -66,7 +76,7 @@ public class BookingController {
     public ResponseEntity<BookingResponse> complete(@PathVariable Long id) {
         return ResponseEntity.ok(bookingService.complete(id));
     }
-    
+
     @GetMapping("/admin")
     @Operation(summary = "Listar reservas (PENDING/CONFIRMED/COMPLETED) por rango de fechas — solo ADMIN")
     public ResponseEntity<List<BookingResponse>> adminFindAll(
@@ -75,4 +85,25 @@ public class BookingController {
             @RequestParam(required = false) Long stadiumId) {
         return ResponseEntity.ok(bookingService.findAllForAdmin(from, to, stadiumId));
     }
+
+    @GetMapping("/admin/export")
+    @Operation(summary = "Exportar reservas a Excel por rango de fechas")
+    public ResponseEntity<byte[]> exportAdminExcel(
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate from,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate to,
+            @RequestParam(required = false) Long stadiumId) {
+
+        byte[] excel = bookingService.exportAllBookingsToExcel(from, to, stadiumId);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.parseMediaType(
+                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"));
+        headers.setContentDisposition(org.springframework.http.ContentDisposition
+                .attachment()
+                .filename("reservas.xlsx")
+                .build());
+
+        return new ResponseEntity<>(excel, headers, HttpStatus.OK);
+    }
 }
+
